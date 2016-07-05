@@ -1,0 +1,15 @@
+{
+  "name": "3.4",
+  "version": "1.0.0",
+  "description": "",
+  "main": "all-ack-urb.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --harmony_destructuring all-ack-urb.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.13.1"
+  }
+}
