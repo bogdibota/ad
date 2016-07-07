@@ -83,6 +83,7 @@ const pfd = new PerfectFailureDetector(processes);
 
 _.times(10, (i) => {
     const proc = new UniformReliableBroadcast(i, bestEffortBroadcast, pfd, processes);
+    proc.verbose = true;
     processes.push(proc);
 });
 
@@ -93,6 +94,7 @@ processes[3].willFail(380);
 processes[6].willFail(530);
 processes[2].willFail(540);
 processes[0].willFail(600);
+
 setTimeout(() => {
-    processes[0].broadcast('penis');
+    processes[0].broadcast('Căluț');
 }, 530);

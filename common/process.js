@@ -13,6 +13,16 @@ class NetworkProcess extends EventEmitter {
     static get MAX_READ_DELAY() {
         return 40;
     }
+    
+    constructor() {
+        super();
+
+        this.on('heartbeat', (pfd) => {
+            setTimeout(() => {
+                pfd.emit('heartbeat', this);
+            }, NetworkProcess.READ_DELAY);
+        });
+    }
 
     willFail(timeout) {
         setTimeout(() => {
@@ -28,18 +38,13 @@ class Process extends NetworkProcess {
         super();
 
         this.id = id;
-        this.lastAlive = new Date().getTime();
 
-        this.on('heartbeat', (pfd) => {
+        this.on('message', (message, pl) => {
             setTimeout(() => {
-                pfd.emit('heartbeat', this);
-            }, NetworkProcess.READ_DELAY);
-        });
-
-        this.on('message', (message, beb) => {
-            setTimeout(() => {
-                console.log(`${id}: received`, message.m);
-                beb.emit('deliver', this, message);
+                if (this.verbose) {
+                    console.log(`${id}: received`, message.m || message.value);
+                }
+                pl.emit('deliver', this, message);
             }, NetworkProcess.READ_DELAY);
         });
     }
